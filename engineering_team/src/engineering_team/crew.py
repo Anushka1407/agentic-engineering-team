@@ -12,17 +12,21 @@ class EngineeringTeam():
     tasks: List[Task]
 
     @agent
-    def lead_engineer(self) -> Agent:
+    def engineering_lead(self) -> Agent:
         return Agent(
-            config=self.agents_config['lead_engineer'],
+            config=self.agents_config['engineering_lead'],
             verbose=True
         )
-
+    
     @agent
     def backend_engineer(self) -> Agent:
         return Agent(
             config=self.agents_config['backend_engineer'],
-            verbose=True
+            verbose=True,
+            allow_code_execution=True,
+            code_execution_mode="safe",
+            max_execution_time=500,
+            max_retries=3
         )
     
     @agent
@@ -33,25 +37,40 @@ class EngineeringTeam():
         )
     
     @agent
-    def qa_engineer(self) -> Agent:
+    def test_engineer(self) -> Agent:
         return Agent(
-            config=self.agents_config['qa_engineer'],
-            verbose=True
-        )       
-
-
-    @task
-    def research_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['research_task'],
-        )
+            config=self.agents_config['test_engineer'],
+            verbose=True,
+            allow_code_execution=True,
+            code_execution_mode="safe",
+            max_execution_time=500,
+            max_retries=3
+        )   
 
     @task
-    def reporting_task(self) -> Task:
+    def design_task(self) -> Task:
         return Task(
-            config=self.tasks_config['reporting_task'],
-            output_file='report.md'
+            config=self.tasks_config['design_task'],
         )
+    
+    @task
+    def code_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['code_task'],
+        )
+    
+    @task
+    def frontend_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['frontend_task'],
+        )
+    
+    @task
+    def test_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['test_task'],
+        )
+
 
     @crew
     def crew(self) -> Crew:
